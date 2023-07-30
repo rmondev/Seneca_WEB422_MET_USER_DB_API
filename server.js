@@ -28,8 +28,8 @@ let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     next(null, {
       _id: jwt_payload._id,
       userName: jwt_payload.userName,
-      favourites: user.favourites,
-      history: user.history
+      favourites: jwt_payload.favourites,
+      history: jwt_payload.history
     });
   } else {
     next(null, false);
