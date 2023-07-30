@@ -28,6 +28,8 @@ let strategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
     next(null, {
       _id: jwt_payload._id,
       userName: jwt_payload.userName,
+      favourites: user.favourites,
+      history: user.history
     });
   } else {
     next(null, false);
@@ -56,6 +58,8 @@ app.post("/api/user/login", (req, res) => {
         let payload = {
             _id: user._id,
             userName: user.userName,
+            favourites: user.favourites,
+            history: user.history
           };
         let token = jwt.sign(payload, jwtOptions.secretOrKey);
           res.json({ "message": "login successful", token: token});
