@@ -19,16 +19,20 @@ let User;
 
 module.exports.connect = function () {
     return new Promise(function (resolve, reject) {
-        let db = mongoose.createConnection(mongoDBConnectionString);
-
-        db.on('error', err => {
-            reject(err);
+        mongoose.connect(mongoDBConnectionString, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
+        .then(() => {
+        User = mongoose.model("users", userSchema);
+        console.log("✅ Connected to MongoDB");
+        resolve();
+        })
+        .catch(err => {
+        console.error("❌ MongoDB connection failed:", err.message);
+        reject(err);
         });
-
-        db.once('open', () => {
-            User = db.model("users", userSchema);
-            resolve();
-        });
+          
     });
 };
 
